@@ -1,102 +1,93 @@
+import echarts from 'echarts'
+
 const option = {
-  grid: {
-    left: '12%',
-    top: '5%',
-    bottom: '12%',
-    right: '8%'
-  },
-  xAxis: {
-    data: ['15-20', '20-25', '25-30', '30-35', '35-40', '40-50', '50以上'],
-    axisTick: {
-      show: false
-    },
-    axisLine: {
-      lineStyle: {
-        color: '#999',
-        width: 1 // 这里是为了突出显示加上的
-      }
-    },
-    axisLabel: {
-      interval: 0,
-      textStyle: {
-        color: '#fff',
-        fontSize: 12
-      }
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
     }
+  },
+  grid: {
+    top: '3%',
+    left: '13%',
+    right: '5%',
+    bottom: '5%'
+    // containLabel: true
   },
   yAxis: [
     {
-      splitNumber: 4,
+      type: 'category',
+      data: [],
+      axisLabel: {
+        color: '#fff'
+      },
+      axisLine: {
+        show: false,
+        lineStyle: {
+          color: '#fff'
+        }
+      },
+      axisTick: {
+        show: false
+      }
+    }
+  ],
+  xAxis: [
+    {
+      type: 'value',
+      axisLabel: {
+        show: false,
+        color: '#fff'
+      },
+      axisLine: {
+        show: false,
+        lineStyle: {
+          color: '#fff'
+        }
+      },
       axisTick: {
         show: false
       },
-      axisLine: {
-        lineStyle: {
-          color: '#999',
-          width: 1 // 这里是为了突出显示加上的
-        }
-      },
-      axisLabel: {
-        textStyle: {
-          color: '#fff'
-        }
-      },
-      splitArea: {
-        areaStyle: {
-          color: '#fff'
-        }
-      },
       splitLine: {
-        show: false,
-        lineStyle: {
-          color: '#fff',
-          width: 0.5,
-          type: 'dashed'
-        }
+        show: false
       }
     }
   ],
   series: [
     {
-      name: 'hill',
-      type: 'pictorialBar',
-      barCategoryGap: '0%',
-      symbol: 'path://M0,10 L10,10 C5.5,10 5.5,5 5,0 C4.5,5 4.5,10 0,10 z',
+      name: 'Top 10',
+      type: 'bar',
+      data: [],
       label: {
-        show: true,
-        position: 'top',
-        distance: 15,
-        color: '#fff',
-        fontWeight: 'bolder',
-        fontSize: 14
+        normal: {
+          show: true,
+          position: 'insideRight',
+          textStyle: {
+            color: 'white' // color of value
+          }
+        }
       },
       itemStyle: {
         normal: {
-          color: {
-            type: 'linear',
-            x: 0,
-            y: 0,
-            x2: 0,
-            y2: 1,
-            colorStops: [
+          color: new echarts.graphic.LinearGradient(
+            0,
+            0,
+            1,
+            0,
+            [
               {
                 offset: 0,
-                color: 'rgba(232, 94, 106, .8)' //  0%  处的颜色
+                color: 'lightBlue' // 0% 处的颜色
               },
               {
                 offset: 1,
-                color: 'rgba(232, 94, 106, .1)' //  100%  处的颜色
+                color: '#3398DB' // 100% 处的颜色
               }
             ],
-            global: false //  缺省为  false
-          }
-        },
-        emphasis: {
-          opacity: 1
+            false
+          )
         }
-      },
-      data: [123, 60, 25, 18, 12, 9, 2],
-      z: 10
+      }
     }
   ]
 }

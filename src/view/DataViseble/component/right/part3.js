@@ -1,115 +1,98 @@
-/* eslint-disable */
-import echarts from 'echarts'
+// import option from '../center/cBottom';
+
+var dataName = [
+  '学校管理',
+  '旅馆管理',
+  '危爆管理',
+  '物流寄递业',
+  '精神病人管理',
+  '娱乐场所',
+  '保安监管',
+  '油气管理',
+  '重点人员管理'
+]
+
+var dataName2 = [
+  '学校管e理',
+  '旅馆管e理',
+  '危爆e管理',
+  '物流寄e递业',
+  '精神病e人管理',
+  '娱乐场e所',
+  '保安监e管',
+  '油e气管理',
+  '重点人员e管理'
+]
+var value = [12, 10, 5, 7, 8, 8, 12, 20, 18]
+var dataarr = []
+var max = value[0]
+var dataarr2 = []
+value.forEach(function(ele, index) {
+  if (ele > max) {
+    max = ele
+  }
+  dataarr.push({
+    value: ele,
+    name: dataName[index]
+  })
+  dataarr2.push({
+    value: ele,
+    name: dataName2[index]
+  })
+})
 
 const option = {
-  grid: {
-    left: '5%',
-    right: '5%',
-    bottom: '5%',
-    top: '10%',
-    containLabel: true
-  },
   tooltip: {
-    trigger: 'axis',
-    axisPointer: {
-      type: 'none'
-    },
-    formatter: function(params) {
-      return (
-        params[0].name +
-        '<br/>' +
-        "<span style='display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:rgba(36,207,233,0.9)'></span>" +
-        params[0].seriesName +
-        ' : ' +
-        Number(
-          (params[0].value.toFixed(4) / 10000).toFixed(2)
-        ).toLocaleString() +
-        ' 万元<br/>'
-      )
+    trigger: 'item',
+    formatter: '{a} <br/>{b}: {c} ({d}%)'
+  },
+  legend: {
+    orient: 'vertical',
+    right: '10%',
+    y: 'middle',
+    itemWidth: 10,
+    itemGap: 5,
+    itemHeight: 10,
+    align: 'right',
+
+    data: dataName,
+    textStyle: {
+      color: '#fff',
+      fontSize: 12
     }
   },
-  xAxis: {
-    show: false,
-    type: 'value'
-  },
-  yAxis: [
-    {
-      type: 'category',
-      inverse: true,
-      axisLabel: {
-        show: true,
-        textStyle: {
-          color: '#fff'
-        }
-      },
-      splitLine: {
-        show: false
-      },
-      axisTick: {
-        show: false
-      },
-      axisLine: {
-        show: false
-      },
-      data: ['大米', '玉米', '蔬菜', '鸡蛋', '坚果']
-    },
-    {
-      type: 'category',
-      inverse: true,
-      axisTick: 'none',
-      axisLine: 'none',
-      show: true,
-      axisLabel: {
-        textStyle: {
-          color: '#ffffff',
-          fontSize: '12'
-        },
-        formatter: function(value) {
-          if (value >= 10000) {
-            return (value / 10000).toLocaleString() + '万'
-          } else {
-            return value.toLocaleString()
-          }
-        }
-      },
-      data: [50000000, 22000000, 10000000, 5000000, 2000000]
-    }
-  ],
   series: [
     {
-      name: '金额',
-      type: 'bar',
-      zlevel: 1,
-      itemStyle: {
+      left: '-30%',
+      name: '访问来源',
+      type: 'pie',
+      radius: ['40%', '75%'],
+      color: [
+        '#2CEDED',
+        '#7049F0',
+        '#B347FF',
+        '#E70E65',
+        '#FF714A',
+        '#F6B768',
+        '#B0DF5D',
+        '#FC7DBC',
+        '#0A9FFD'
+      ],
+      label: {
         normal: {
-          barBorderRadius: 10,
-          color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
-            {
-              offset: 0,
-              color: 'rgb(57,89,255,1)'
-            },
-            {
-              offset: 1,
-              color: 'rgb(46,200,207,1)'
-            }
-          ])
+          show: false,
+          formatter: '{b}\n{d}%',
+          fontSize: 12
         }
       },
-      barWidth: 10,
-      data: [50000000, 22000000, 10000000, 5000000, 2000000]
-    },
-    {
-      name: '背景',
-      type: 'bar',
-      barWidth: 10,
-      barGap: '-100%',
-      data: [50000000, 50000000, 50000000, 50000000, 50000000],
-      itemStyle: {
+      labelLine: {
         normal: {
-          color: 'rgba(24,31,68,1)',
-          barBorderRadius: 10
+          show: false,
+          length: 10,
+          length2: 74
         }
-      }
+      },
+      data: dataarr
     }
   ]
 }

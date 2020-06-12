@@ -1,6 +1,6 @@
 <template>
   <div class="sex-map">
-    <topTips :title="'下单效率'"></topTips>
+    <topTips :title="'仓库占比'"></topTips>
     <div id="part_sex"></div>
   </div>
 </template>
@@ -23,12 +23,12 @@ export default {
 <style lang="scss" scoped>
 .sex-map {
   position: relative;
+  z-index: 666;
   width: 100%;
-  height: 200px;
 
   #part_sex {
-    height: 200px;
-    transform: translate(-10px, 15px);
+    height: 240px;
+    transform: translateY(10px);
   }
 }
 </style>

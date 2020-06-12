@@ -33,7 +33,7 @@ export default {
 
   h3 {
     float: left;
-    width: 60%;
+    width: 50%;
     margin-left: 10px;
     font-size: 14px;
     line-height: 20px;

@@ -40,20 +40,18 @@ export default {
 <style lang="scss" scoped>
 .content {
   position: relative;
-  height: 100%;
   background-color: #ccc;
   background-image: url('../../assets/images/bg.jpg');
   background-repeat: no-repeat;
   object-fit: fill;
   padding: 20px;
   box-sizing: border-box;
+  background-color: rgba($color: #02081a, $alpha: 1);
 
   .container {
     display: flex;
-    height: 100%;
     padding-top: 54px;
     box-sizing: border-box;
-    overflow: hidden;
 
     .c-left {
       flex: 3;

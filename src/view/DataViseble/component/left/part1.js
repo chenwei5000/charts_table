@@ -1,167 +1,90 @@
-import echarts from 'echarts'
-
-const data = {
-  city: ['0', '4', '8', '12', '16', '20'],
-  num: ['40', '60', '22', '85', '50', '40']
-}
 const option = {
-  backgroundColor: 'transparent', // #0e1c47
+  color: [
+    '#37a2da',
+    '#32c5e9',
+    '#9fe6b8',
+    '#ffdb5c',
+    '#ff9f7f',
+    '#fb7293',
+    '#e7bcf3',
+    '#8378ea'
+  ],
   tooltip: {
-    trigger: 'axis',
-    axisPointer: {
-      lineStyle: {
-        color: {
-          type: 'linear',
-          x: 0,
-          y: 0,
-          x2: 0,
-          y2: 1,
-          colorStops: [
-            {
-              offset: 0,
-              color: 'rgba(255,255,255,0)' // 0% 处的颜色
-            },
-            {
-              offset: 0.5,
-              color: 'rgba(255,255,255,1)' // 100% 处的颜色
-            },
-            {
-              offset: 1,
-              color: 'rgba(255,255,255,0)' // 100% 处的颜色
-            }
-          ],
-          global: false // 缺省为 false
-        }
-      }
+    trigger: 'item',
+    formatter: '{a} <br/>{b} : {c} ({d}%)'
+  },
+  legend: {
+    orient: 'vertical',
+    right: '15%',
+    top: '25%',
+    itemWidth: 10,
+    itemGap: 8,
+    itemHeight: 10,
+    align: 'left',
+
+    data: [
+      '使用感受',
+      '产品',
+      '使用场景',
+      '产品页面描述',
+      '用户信息',
+      '总体感受',
+      '卖家账号相关'
+    ],
+    textStyle: {
+      color: '#fff',
+      fontSize: 12
     }
   },
-  grid: {
-    top: '18%',
-    left: '15%',
-    right: '5%',
-    bottom: '25%'
-    // containLabel: true
-  },
-  xAxis: [
-    {
-      type: 'category',
-      boundaryGap: true,
-      axisLine: {
-        // 坐标轴轴线相关设置。数学上的x轴
-        show: true,
-        lineStyle: {
-          color: 'color:"#092b5d"'
-        }
-      },
-      axisLabel: {
-        // 坐标轴刻度标签的相关设置
-        textStyle: {
-          color: '#24c4ff',
-          margin: 15
-        },
-        formatter: function(data) {
-          return data + '时'
-        }
-      },
-      axisTick: {
-        show: false
-      },
-      data: data.city
-    }
-  ],
-  yAxis: [
-    {
-      min: 0,
-      max: 100,
-      splitLine: {
-        show: true,
-        lineStyle: {
-          color: '#092b5d'
-        }
-      },
-      axisLine: {
-        show: true,
-        lineStyle: {
-          color: '#092b5d'
-        }
-      },
-      axisLabel: {
-        show: true,
-        textStyle: {
-          color: '#24c4ff'
-        },
-        formatter: function(value) {
-          if (value === 0) {
-            return value
-          }
-          return value + '%'
-        }
-      },
-      axisTick: {
-        show: false
-      }
-    }
-  ],
   series: [
     {
-      name: '注册总量',
-      type: 'line',
-      symbol: 'circle', // 默认是空心圆（中间是白色的），改成实心圆
-      showAllSymbol: true,
-      symbolSize: 8,
-      lineStyle: {
+      name: '评论分析维度',
+      type: 'pie',
+      radius: [20, 110],
+      top: '10%',
+      left: '-30%',
+      roseType: 'area',
+      labelLine: {
         normal: {
-          color: '#7c80f4' // 线条颜色
-        },
-        borderColor: 'rgba(0,0,0,.4)'
-      },
-      itemStyle: {
-        color: 'rgba(14,30,73,1)',
-        borderColor: '#646ace',
-        borderWidth: 2
+          show: false
+        }
       },
       label: {
         normal: {
-          show: true,
-          position: 'top',
-          formatter: [' {a|{c}%}'].join(','),
-          rich: {
-            a: {
-              color: '#fff',
-              align: 'center'
-            }
-          }
+          show: false,
+          position: 'center'
         }
       },
-      tooltip: {
-        show: true
-      },
-      areaStyle: {
-        // 区域填充样式
-        normal: {
-          // 线性渐变，前4个参数分别是x0,y0,x2,y2(范围0~1);相当于图形包围盒中的百分比。如果最后一个参数是‘true’，则该四个值是绝对像素位置。
-          color: new echarts.graphic.LinearGradient(
-            0,
-            0,
-            0,
-            1,
-            [
-              {
-                offset: 0,
-                color: 'rgba(124, 128, 244,.3)'
-              },
-              {
-                offset: 1,
-                color: 'rgba(124, 128, 244, 0)'
-              }
-            ],
-            false
-          ),
-          shadowColor: 'rgba(53,142,215, 0.9)', // 阴影颜色
-          shadowBlur: 20 // shadowBlur设图形阴影的模糊大小。配合shadowColor,shadowOffsetX/Y, 设置图形的阴影效果。
+      data: [
+        {
+          value: 10,
+          name: '使用感受'
+        },
+        {
+          value: 1,
+          name: '产品'
+        },
+        {
+          value: 15,
+          name: '使用场景'
+        },
+        {
+          value: 25,
+          name: '产品页面描述'
+        },
+        {
+          value: 20,
+          name: '用户信息'
+        },
+        {
+          value: 35,
+          name: '总体感受'
+        },
+        {
+          value: 30,
+          name: '卖家账号相关'
         }
-      },
-      data: data.num
+      ]
     }
   ]
 }

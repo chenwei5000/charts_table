@@ -1,6 +1,6 @@
 <template>
   <div>
-    <topTips :title="'出货统计'" class="tips"></topTips>
+    <topTips :title="'物流统计'"></topTips>
     <div id="show_data"></div>
   </div>
 </template>
@@ -24,15 +24,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.tips {
-  transform: translate(-10px, -15px);
-}
-
 #show_data {
   position: absolute;
-  top: -8px;
-  left: -40px;
+  top: 20px;
+  left: -15px;
   width: 100%;
-  height: 90%;
+  height: 100%;
 }
 </style>

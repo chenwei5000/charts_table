@@ -6,7 +6,7 @@ var dataStyle = {
     labelLine: {
       show: false
     },
-    shadowBlur: 0,
+    shadowBlur: 5,
     shadowColor: '#203665'
   }
 }
@@ -16,26 +16,26 @@ const option = {
       name: '第一个圆环',
       type: 'pie',
       clockWise: false,
-      radius: [35, 45],
+      radius: [40, 50],
       itemStyle: dataStyle,
-      hoverAnimation: false,
+      hoverAnimation: true,
       center: ['17%', '50%'],
       data: [
         {
-          value: 25,
+          value: 30,
           label: {
             normal: {
               rich: {
                 a: {
                   color: '#3a7ad5',
                   align: 'center',
-                  fontSize: 14,
+                  fontSize: 16,
                   fontWeight: 'bold'
                 },
                 b: {
                   color: '#fff',
                   align: 'center',
-                  fontSize: 10
+                  fontSize: 12
                 }
               },
               formatter: function(params) {
@@ -50,7 +50,7 @@ const option = {
               position: 'center',
               show: true,
               textStyle: {
-                fontSize: '3',
+                fontSize: '5',
                 fontWeight: 'normal',
                 color: '#fff'
               }
@@ -65,7 +65,7 @@ const option = {
           }
         },
         {
-          value: 75,
+          value: 70,
           name: 'invisible',
           itemStyle: {
             normal: {
@@ -82,26 +82,26 @@ const option = {
       name: '第二个圆环',
       type: 'pie',
       clockWise: false,
-      radius: [35, 45],
+      radius: [40, 50],
       itemStyle: dataStyle,
-      hoverAnimation: false,
+      hoverAnimation: true,
       center: ['50%', '50%'],
       data: [
         {
-          value: 50,
+          value: 67,
           label: {
             normal: {
               rich: {
                 a: {
                   color: '#d03e93',
                   align: 'center',
-                  fontSize: 14,
+                  fontSize: 16,
                   fontWeight: 'bold'
                 },
                 b: {
                   color: '#fff',
                   align: 'center',
-                  fontSize: 10
+                  fontSize: 12
                 }
               },
               formatter: function(params) {
@@ -116,7 +116,7 @@ const option = {
               position: 'center',
               show: true,
               textStyle: {
-                fontSize: '3',
+                fontSize: '5',
                 color: '#fff'
               }
             }
@@ -130,7 +130,7 @@ const option = {
           }
         },
         {
-          value: 50,
+          value: 33,
           name: 'invisible',
           itemStyle: {
             normal: {
@@ -147,9 +147,9 @@ const option = {
       name: '第三个圆环',
       type: 'pie',
       clockWise: false,
-      radius: [35, 45],
+      radius: [40, 50],
       itemStyle: dataStyle,
-      hoverAnimation: false,
+      hoverAnimation: true,
       center: ['83%', '50%'],
       data: [
         {
@@ -160,12 +160,13 @@ const option = {
                 a: {
                   color: '#603dd0',
                   align: 'center',
-                  fontSize: 14
+                  fontSize: 16,
+                  fontWeight: 'bold'
                 },
                 b: {
                   color: '#fff',
                   align: 'center',
-                  fontSize: 10
+                  fontSize: 12
                 }
               },
               formatter: function(params) {
@@ -180,7 +181,7 @@ const option = {
               position: 'center',
               show: true,
               textStyle: {
-                fontSize: '3',
+                fontSize: '5',
                 color: '#fff'
               }
             }

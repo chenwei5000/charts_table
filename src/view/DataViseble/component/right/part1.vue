@@ -1,6 +1,6 @@
 <template>
   <div class="circle-map clearfix">
-    <topTips :title="'统计情况'"></topTips>
+    <topTips :title="'仓库使用'"></topTips>
     <div class="circle-inner" id="circle_inner"></div>
   </div>
 </template>

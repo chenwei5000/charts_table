@@ -1,6 +1,6 @@
 <template>
   <div class="lei-map">
-    <topTips :title="'销售排名'"></topTips>
+    <topTips :title="'供货商占比'"></topTips>
     <div id="part_03"></div>
   </div>
 </template>
@@ -24,11 +24,11 @@ export default {
 .lei-map {
   position: relative;
   width: 100%;
-  padding-top: 20px;
+  padding-top: 15px;
 
   #part_03 {
     height: 200px;
-    margin-left: -8px;
+    margin-left: -18px;
   }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="linear-map">
-    <topTips :title="'出库入库'"></topTips>
+    <topTips :title="'库存量（周）'"></topTips>
     <div id="mini_data"></div>
   </div>
 </template>
@@ -26,16 +26,15 @@ export default {
 <style lang="scss" scoped>
 .linear-map {
   position: relative;
-  height: 280px;
-  padding-top: 30px;
+  height: 240px;
 
   #mini_data {
     position: absolute;
     left: 0;
-    bottom: -20px;
-    width: 108%;
-    height: 310px;
-    transform: translate(-20px, 8px);
+    bottom: -25px;
+    width: 100%;
+    height: 240px;
+    transform: translate(-18px, -7px);
   }
 }
 </style>

@@ -471,13 +471,13 @@ const option = {
     textStyle: {
       color: '#B4B4B4'
     },
-    top: '12%',
-    left: '50%'
+    top: '-1%',
+    right: '5%'
   },
   grid: {
-    x: '12%',
-    width: '82%',
-    y: '12%'
+    x: '10%',
+    width: '84%',
+    y: '10%'
   },
   xAxis: {
     data: category,

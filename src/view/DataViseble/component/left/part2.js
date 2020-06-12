@@ -1,107 +1,243 @@
 import echarts from 'echarts'
 
-var category = []
-var dottedBase = +new Date()
-var barData1 = []
-var barData2 = []
-for (var i = 0; i < 15; i++) {
-  var date = new Date((dottedBase += 1000 * 3600 * 24))
-  category.push([date.getMonth() + 1, date.getDate()].join('.'))
-  var b = Math.random() * 200
-  var d = Math.random() * -200
-  barData1.push(b)
-  barData2.push(d)
-}
-
-// option
+var fontColor = '#fff'
 const option = {
+  grid: {
+    left: '1%',
+    right: '5%',
+    top: '10%',
+    bottom: '3%',
+    containLabel: true
+  },
   tooltip: {
-    trigger: 'axis',
-    axisPointer: {
-      type: 'shadow',
-      label: {
-        show: true,
-        backgroundColor: '#333'
-      }
-    }
+    show: true,
+    trigger: 'item'
   },
   legend: {
-    top: '8%',
-    right: '10%',
-    data: ['入库', '出库'],
+    show: true,
+    top: '-1%',
+    right: '3%',
+    icon: 'stack',
+    itemWidth: 10,
+    itemHeight: 10,
     textStyle: {
-      color: '#ccc'
-    }
-  },
-  xAxis: {
-    type: 'category',
-    data: category,
-    axisTick: {
-      alignWithLabel: true
+      color: '#1bb4f6'
     },
-
-    splitLine: {
-      show: false
-    },
-    axisLabel: {
-      // fontWeight:10,
-      // interval:2,
-      fontsize: 2,
-      align: 'center',
-      color: 'rgba(255,255,255,0.8)'
-    }
+    data: ['入库', '出口', '库存']
   },
-  yAxis: [
+  xAxis: [
     {
-      type: 'value',
+      type: 'category',
+      boundaryGap: false,
+      axisLabel: {
+        color: fontColor
+      },
+      axisLine: {
+        show: true,
+        lineStyle: {
+          color: '#fff'
+        }
+      },
+      axisTick: {
+        show: false
+      },
       splitLine: {
         show: true,
         lineStyle: {
-          color: 'rgba(255,255,255,0.2)'
+          color: 'rgba(255, 255, 255, .1)'
+        }
+      },
+      data: [
+        '1',
+        '2',
+        '3',
+        '4',
+        '5',
+        '6',
+        '7',
+        '8',
+        '9',
+        '10',
+        '11',
+        '12',
+        '13',
+        '14',
+        '15'
+      ]
+    }
+  ],
+  yAxis: [
+    {
+      type: 'value',
+      name: '',
+      min: 0,
+      max: 1000,
+      axisLabel: {
+        formatter: '{value}',
+        textStyle: {
+          color: '#fff'
         }
       },
       axisLine: {
+        interval: 2,
+        lineStyle: {
+          color: '#fff'
+        }
+      },
+      axisTick: {
         show: false
       },
-      axisLabel: {
-        fontWeight: 10,
-        fontsize: 5,
-        color: 'rgba(255,255,255,0.8)'
+      splitLine: {
+        show: true,
+        lineStyle: {
+          color: 'rgba(255, 255, 255, .1)'
+        }
       }
     }
   ],
   series: [
     {
       name: '入库',
-      type: 'bar',
-      stack: '总量',
-      barWidth: 10,
+      type: 'line',
+      symbol: 'circle',
+      symbolSize: 6,
       itemStyle: {
         normal: {
-          barBorderRadius: 50,
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            { offset: 0, color: '#BC34BC' },
-            { offset: 1, color: '#7F3594' }
-          ])
+          color: '#f4f4f4',
+          lineStyle: {
+            color: '#f02fc3',
+            width: 1
+          },
+          areaStyle: {
+            // color: '#94C9EC'
+            color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [
+              {
+                offset: 0,
+                color: 'rgba(7,44,90,0.3)'
+              },
+              {
+                offset: 1,
+                color: 'rgba(0,146,246,0.9)'
+              }
+            ])
+          }
         }
       },
-      data: barData1
+      markPoint: {
+        itemStyle: {
+          normal: {
+            color: 'red'
+          }
+        }
+      },
+      data: [
+        120,
+        132,
+        101,
+        134,
+        90,
+        230,
+        210,
+        182,
+        191,
+        234,
+        290,
+        330,
+        242,
+        452,
+        253
+      ]
     },
     {
-      name: '出库',
-      type: 'bar',
-      stack: '总量',
-      barWidth: 10,
+      name: '出口',
+      type: 'line',
+      symbol: 'circle',
+      symbolSize: 6,
+
       itemStyle: {
         normal: {
-          barBorderRadius: 50,
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            { offset: 0, color: '#4740C8' },
-            { offset: 1, color: '#EF71FF' }
-          ])
+          color: '#49a4e3',
+          lineStyle: {
+            color: '#48a4e3',
+            width: 1
+          },
+          areaStyle: {
+            // color: '#94C9EC'
+            color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [
+              {
+                offset: 0,
+                color: 'rgba(7,44,90,0.3)'
+              },
+              {
+                offset: 1,
+                color: 'rgba(0,212,199,0.9)'
+              }
+            ])
+          }
         }
       },
-      data: barData2
+      data: [
+        220,
+        182,
+        191,
+        234,
+        290,
+        330,
+        310,
+        201,
+        154,
+        190,
+        330,
+        410,
+        425,
+        631,
+        820
+      ]
+    },
+    {
+      name: '库存',
+      type: 'line',
+      symbol: 'circle',
+      symbolSize: 6,
+      itemStyle: {
+        normal: {
+          color: '#aecb56',
+          lineStyle: {
+            color: '#afe348',
+            width: 1
+          },
+          areaStyle: {
+            // color: '#94C9EC'
+            color: new echarts.graphic.LinearGradient(0, 1, 0, 0, [
+              {
+                offset: 0,
+                color: 'rgba(7,44,90,0.3)'
+              },
+              {
+                offset: 1,
+                color: 'rgba(114,144,89,0.9)'
+              }
+            ])
+          }
+        }
+      },
+      data: [
+        150,
+        232,
+        201,
+        154,
+        190,
+        330,
+        410,
+        150,
+        232,
+        201,
+        154,
+        190,
+        280,
+        520,
+        121
+      ]
     }
   ]
 }
