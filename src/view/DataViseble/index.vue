@@ -40,13 +40,13 @@ export default {
 <style lang="scss" scoped>
 .content {
   position: relative;
-  background-color: #ccc;
-  background-image: url('../../assets/images/bg.jpg');
+  background-image: url('../../assets/images/bg2.jpg');
   background-repeat: no-repeat;
-  object-fit: fill;
+  background-size: cover;
+  // object-fit: fill;
   padding: 20px;
   box-sizing: border-box;
-  background-color: rgba($color: #02081a, $alpha: 1);
+  // background-color: rgba($color: #02081a, $alpha: 1);
 
   .container {
     display: flex;
