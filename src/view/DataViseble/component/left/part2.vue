@@ -26,7 +26,7 @@ export default {
 <style lang="scss" scoped>
 .linear-map {
   position: relative;
-  height: 240px;
+  height: 38%;
 
   #mini_data {
     position: absolute;

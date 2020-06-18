@@ -18,7 +18,7 @@ const option = {
     right: '15%',
     top: '25%',
     itemWidth: 10,
-    itemGap: 8,
+    itemGap: 10,
     itemHeight: 10,
     align: 'left',
 

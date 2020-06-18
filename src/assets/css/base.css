@@ -127,8 +127,15 @@ body {
   color: #3c3c3c;
   -webkit-font-smoothing: antialiased;
   background-color: #f4f4f4;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
 }
+
+body::-webkit-scrollbar {
+  display: none; /* Chrome Safari */
+}
+
 img {
   vertical-align: middle;
 }

@@ -25,7 +25,7 @@ export default {
     return {
       dataList: [],
       searchUrl:
-        'https://erp.kuihuajia.com/erp-service/linerShippingPlans?accessToken=NDAzRDREQ0Y3OEMzRTZDMzczMjZFOTU4NEExM0FGQUIsMg==&relations=[%22fromWarehouse%22,%22toWarehouse%22,%22creator%22]&sort=etdTime&dir=desc&filters={%22groupOp%22:%22AND%22,%22rules%22:[{%22field%22:%22etdTime%22,%22op%22:%22timeRange%22,%22data%22:%222020-06-14,%202020-06-20%22}]}',
+        'http://192.168.10.120:9001/erp-service/countcerReports/containers?accessToken=MUQ5RjMwRjcwMUE0NkUwRkUxNkUyMkNDNkZFNDNBOTEsMg==&startDate=2020-06-15&endDate=2020-06-21',
 
       //  飞机图标
       planePath:
@@ -40,71 +40,61 @@ export default {
   methods: {
     async init() {
       const { data } = await this.$axios.get(this.searchUrl)
+
       // 1.0 提取精确的数据  发货地   发往地   时间  分类
       let arr = []
-      data.forEach(item => {
-        arr.push({
-          from: item.portOfLoading,
-          forword: item.toWarehouse.address,
-          time: item.etdTime,
-          cate: item.categoryName
-        })
-      })
-      // 2.0 筛选相同的出发地，到单独的数组
-      let o = {}
-      arr.forEach(item => {
-        if (o[item.from]) {
-          o[item.from].push([
-            { name: item.from },
-            { name: item.forword, value: item.cate }
+      for (let k in data) {
+        const subArr = []
+        data[k].forEach(item => {
+          subArr.push([
+            {
+              name: item.fromPortOfLoading
+            },
+            {
+              name: item.toPortOfLoading,
+              value: item.containerQty,
+              num:
+                Math.floor((item.shippedCartonQty / item.planCartonQty) * 100) /
+                100,
+              doneP: item.shippedProportion
+            }
           ])
-        } else {
-          o[item.from] = []
-        }
-      })
+        })
+        arr.push([k, subArr])
+      }
 
       // 3.0 整理数据 渲染
-      for (let k in o) {
-        this.dataList.push([k, o[k]])
-      }
+      this.dataList = arr
       this.getSerice()
-      const _that = this
+
       // 4.0 鼠标经过航线和目标地显示文字
+      const _that = this
       option1.tooltip = {
         trigger: 'item',
         formatter: function(param) {
-          let arr = []
-
           // 4.1 根据不同的航线，展示不同的货品分类
+          let arr = []
           let cate = {}
           let o = {}
           _that.dataList.forEach(item => {
             if (item[0] === param.seriesName) {
               item[1].forEach((subItem, i) => {
                 if (cate[subItem[1].name]) {
+                  console.log(cate[subItem[1].name])
                   o[subItem[1].name] = cate[subItem[1].name].length
-                  cate[subItem[1].name].push(...subItem[1].value.split(','))
+                  cate[subItem[1].name].push(subItem[1].num + '箱')
                 } else {
                   cate[subItem[1].name] = []
-                  cate[subItem[1].name].push(...subItem[1].value.split(','))
+                  cate[subItem[1].name].push(subItem[1].doneP + '箱')
                 }
               })
               return false
             }
           })
-          function group(array, subGroupLength) {
-            let index = 0
-            let newArray = []
-            while (index < array.length) {
-              newArray.push(array.slice(index, (index += subGroupLength)))
-            }
-            return newArray
-          }
-          for (let k in cate) {
-            // 数组去重，分割为3个数组
-            cate[k] = Array.from(new Set(cate[k]))
-            cate[k] = group(cate[k], 3)
-          }
+          // 得到货柜的数量、货柜的完成情况及百分比
+          console.log(o)
+          console.log(cate)
+
           let city = ''
           let str = ''
           if (param.componentSubType === 'lines') {
@@ -129,10 +119,10 @@ export default {
               param.seriesName +
               '<br />' +
               param.marker +
-              '货品分类: <br />' +
+              '商品数量: <br />' +
               str +
               param.marker +
-              '订单数量: ' +
+              '完成度: ' +
               o[city] +
               ' 柜'
             )

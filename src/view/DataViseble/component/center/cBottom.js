@@ -490,6 +490,7 @@ const option = {
       show: false
     }
   },
+  zoom: 0.9,
   yAxis: [
     {
       splitLine: { show: false },

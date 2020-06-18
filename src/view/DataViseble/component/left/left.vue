@@ -10,16 +10,20 @@
             <div>
               <div>
                 <p>
-                  34,223
-                  <i>箱</i>
+                  {{ allData.inTotalCartonQty | currency }}
+                  <span>箱</span>
                 </p>
                 <p>
-                  46,411
-                  <i>件</i>
+                  {{ allData.inTotalQty | currency }}
+                  <span>件</span>
                 </p>
                 <p>
-                  23,118,123
-                  <i>元</i>
+                  <i>￥</i>
+                  {{ allData.inTotalCNYAmount | currency }}
+                </p>
+                <p>
+                  <i>$</i>
+                  {{ allData.inTotalUSDAmount | currency }}
                 </p>
               </div>
             </div>
@@ -31,16 +35,20 @@
             <div>
               <div>
                 <p>
-                  34,223
-                  <i>箱</i>
+                  {{ allData.outTotalCartonQty | currency }}
+                  <span>箱</span>
                 </p>
                 <p>
-                  46,411
-                  <i>件</i>
+                  {{ allData.outTotalQty | currency }}
+                  <span>件</span>
                 </p>
                 <p>
-                  4,724,123
-                  <i>元</i>
+                  <i>￥</i>
+                  {{ allData.outTotalCNYAmount | currency }}
+                </p>
+                <p>
+                  <i>$</i>
+                  {{ allData.outTotalUSDAmount | currency }}
                 </p>
               </div>
             </div>
@@ -52,16 +60,20 @@
             <div>
               <div>
                 <p>
-                  34,223
-                  <i>箱</i>
+                  {{ allData.stockCartonQty | currency }}
+                  <span>箱</span>
                 </p>
                 <p>
-                  46,411
-                  <i>件</i>
+                  {{ allData.stockQty | currency }}
+                  <span>件</span>
                 </p>
                 <p>
-                  1,738,123
-                  <i>元</i>
+                  <i>¥</i>
+                  {{ allData.stockCNYAmount | currency }}
+                </p>
+                <p>
+                  <i>$</i>
+                  {{ allData.stockUSAAmount | currency }}
                 </p>
               </div>
             </div>
@@ -77,37 +89,55 @@
 </template>
 
 <script>
+import { toThousandFilter } from '../../../../api/currency.js'
 import topTips from '../topTips.vue'
 import Part1 from './part1.vue'
 import part2 from './part2.vue'
 
 export default {
+  filters: {
+    currency: toThousandFilter
+  },
   components: {
     topTips,
     Part1,
     part2
   },
   data() {
-    return {}
+    return {
+      searchUrl:
+        'http://192.168.10.120:9001/erp-service/countcerReports/overview?accessToken=MUQ5RjMwRjcwMUE0NkUwRkUxNkUyMkNDNkZFNDNBOTEsMg==&startDate=2020-06-15&endDate=2020-06-21',
+      allData: {}
+    }
+  },
+  mounted() {
+    this.initData()
+  },
+  methods: {
+    async initData() {
+      // 请求当前周的数据
+      const { data } = await this.$axios.get(this.searchUrl)
+      this.allData = data
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .top-tab {
-  height: 130px;
+  height: 20%;
 }
 
 .left-box {
   position: relative;
   z-index: 999;
   height: 100%;
-  margin-left: 10px;
 }
 
 .data-list {
   display: flex;
-  padding-top: 40px;
+  padding-top: 35px;
+  // padding-right: 10px;
   box-sizing: border-box;
 
   li {
@@ -119,6 +149,7 @@ export default {
     color: #fff;
 
     .ls-card {
+      position: relative;
       width: 96%;
       margin: 0 auto;
       box-sizing: border-box;
@@ -127,11 +158,13 @@ export default {
       border-radius: 4px;
       overflow: hidden;
 
-      span {
-        float: left;
-        width: 16px;
-        height: 70px;
-        font-size: 14px;
+      > span {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 12px;
+        height: 100%;
+        font-size: 12px;
         line-height: 24px;
         font-weight: 700;
         padding: 4px 3px;
@@ -139,22 +172,27 @@ export default {
       }
       > div {
         width: 100%;
-        height: 70px;
-        padding-left: 20px;
         padding-top: 4px;
         padding-right: 4px;
         box-sizing: border-box;
 
         p {
-          line-height: 24px;
+          line-height: 20px;
+          font-size: 15px;
           font-family: Arial, Helvetica, sans-serif;
           font-weight: 700;
           text-align: right;
-
           i {
-            font-weight: 400;
+            display: inline-block;
+            vertical-align: top;
+            font-family: consolas;
             font-style: normal;
-            font-size: 14px;
+            color: rgba($color: #ffd900, $alpha: 1);
+            margin-right: -3px;
+            font-size: 13px;
+          }
+          span {
+            font-weight: 600;
           }
         }
       }

@@ -39,14 +39,16 @@ export default {
 
 <style lang="scss" scoped>
 .content {
+  min-width: 1400px;
+  height: 100%;
   position: relative;
   background-image: url('../../assets/images/bg2.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   // object-fit: fill;
-  padding: 20px;
+  padding: 20px 20px 0;
   box-sizing: border-box;
-  // background-color: rgba($color: #02081a, $alpha: 1);
+  overflow-y: hidden;
 
   .container {
     display: flex;
