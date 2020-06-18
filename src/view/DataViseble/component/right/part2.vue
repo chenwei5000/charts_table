@@ -132,6 +132,7 @@ export default {
       float: left;
       color: #fff;
       border-bottom: 2px solid transparent;
+      cursor: pointer;
 
       a {
         font-weight: 700;

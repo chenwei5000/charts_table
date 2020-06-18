@@ -2,7 +2,7 @@
   <div class="left-box">
     <!-- 1.0 数据 tab -->
     <div class="top-tab">
-      <topTips :title="'品海出口总览'"></topTips>
+      <topTips :title="'品海总览'"></topTips>
       <ul class="data-list">
         <li>
           <div class="ls-card clearfix">
@@ -106,7 +106,7 @@ export default {
   data() {
     return {
       searchUrl:
-        'http://192.168.10.120:9001/erp-service/countcerReports/overview?accessToken=MUQ5RjMwRjcwMUE0NkUwRkUxNkUyMkNDNkZFNDNBOTEsMg==&startDate=2020-06-15&endDate=2020-06-21',
+        'http://192.168.0.188:9527/erp-service/countcerReports/overview?accessToken=MUQ5RjMwRjcwMUE0NkUwRkUxNkUyMkNDNkZFNDNBOTEsMg==&startDate=2020-06-15&endDate=2020-06-21',
       allData: {}
     }
   },

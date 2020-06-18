@@ -25,7 +25,7 @@ export default {
     return {
       dataList: [],
       searchUrl:
-        'http://192.168.10.120:9001/erp-service/countcerReports/containers?accessToken=MUQ5RjMwRjcwMUE0NkUwRkUxNkUyMkNDNkZFNDNBOTEsMg==&startDate=2020-06-15&endDate=2020-06-21',
+        'http://192.168.0.188:9527/erp-service/countcerReports/containers?accessToken=MUQ5RjMwRjcwMUE0NkUwRkUxNkUyMkNDNkZFNDNBOTEsMg==&startDate=2020-06-15&endDate=2020-06-21',
 
       //  飞机图标
       planePath:
@@ -74,58 +74,30 @@ export default {
         formatter: function(param) {
           // 4.1 根据不同的航线，展示不同的货品分类
           let arr = []
-          let cate = {}
-          let o = {}
-          _that.dataList.forEach(item => {
-            if (item[0] === param.seriesName) {
-              item[1].forEach((subItem, i) => {
-                if (cate[subItem[1].name]) {
-                  console.log(cate[subItem[1].name])
-                  o[subItem[1].name] = cate[subItem[1].name].length
-                  cate[subItem[1].name].push(subItem[1].num + '箱')
-                } else {
-                  cate[subItem[1].name] = []
-                  cate[subItem[1].name].push(subItem[1].doneP + '箱')
-                }
-              })
-              return false
-            }
-          })
-          // 得到货柜的数量、货柜的完成情况及百分比
-          console.log(o)
-          console.log(cate)
 
           let city = ''
-          let str = ''
           if (param.componentSubType === 'lines') {
             for (let v in mapData) {
               if (mapData[v].join(',') === param.data.coords[1].join(',')) {
                 city = v
               }
             }
-
-            // 4.3 拼接为显示的信息
-            cate[city].forEach(item => {
-              str += item.join(',') + '<br />'
-            })
           }
 
+          // 根据城市名称，获取当前航线的数据
+          let getItem = data[param.seriesName].find(
+            item => item.toPortOfLoading === city
+          )
           if (param.componentSubType === 'effectScatter') {
             return param.marker + param.seriesName
           } else if (param.componentSubType === 'lines') {
-            return (
-              param.marker +
-              '出发仓库: ' +
-              param.seriesName +
-              '<br />' +
-              param.marker +
-              '商品数量: <br />' +
-              str +
-              param.marker +
-              '完成度: ' +
-              o[city] +
-              ' 柜'
-            )
+            return `
+              ${param.marker}发货港口: ${param.seriesName}<br />
+              ${param.marker}收货港口: ${city}<br />
+              ${param.marker}货柜数量: ${getItem.containerQty}柜<br />
+              ${param.marker}商品数量: ${getItem.shippedCartonQty}箱 / ${getItem.planCartonQty}箱<br />
+              ${param.marker}完成度: ${getItem.shippedProportion}%<br />
+              `
           }
         }
       }
