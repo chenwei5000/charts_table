@@ -84,7 +84,7 @@ const option = {
       symbolSize: 6,
       itemStyle: {
         normal: {
-          color: '#f4f4f4',
+          color: '#f02fc3',
           lineStyle: {
             color: '#f02fc3',
             width: 1

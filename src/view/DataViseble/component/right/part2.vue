@@ -102,6 +102,18 @@ export default {
         part02.series[0].data.push(item.value)
       })
       part02.yAxis[0].data = legendName
+      part02.series[0].label = {
+        normal: {
+          show: true,
+          position: [10, 4],
+          textStyle: {
+            color: '#f4f4f4' // color of value
+          },
+          formatter(param) {
+            return '¥' + toThousandFilter(param.value)
+          }
+        }
+      }
       part02.tooltip = {
         trigger: 'axis',
         axisPointer: {

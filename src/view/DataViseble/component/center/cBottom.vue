@@ -55,7 +55,7 @@ export default {
             ${params[0].marker}收货港: ${dataItem.toPortOfLoading} <br/>
             ${params[0].marker}分类: ${dataItem.categoryName} <br/>
             ${params[0].marker}箱数: ${dataItem.shippedCartonQty}/${dataItem.planCartonQty} 箱<br/>
-            ${params[0].marker}件数: ${dataItem.shippedQty}/${dataItem.shippedQty} 件<br/>
+            ${params[0].marker}件数: ${dataItem.shippedQty}/${dataItem.planQty} 件<br/>
             ${params[0].marker}体积: ${dataItem.shippedVolume}/${dataItem.planVolume} m³<br/>
           `
         }

@@ -5,7 +5,7 @@ const option = {
     label: {
       // 鼠标移入显示国家名称
       emphasis: {
-        show: true,
+        show: false,
         color: '#fff'
       }
     },

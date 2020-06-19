@@ -53,15 +53,7 @@ const option = {
       name: 'Top 10',
       type: 'bar',
       data: [],
-      label: {
-        normal: {
-          show: true,
-          position: [10, 4],
-          textStyle: {
-            color: '#fff' // color of value
-          }
-        }
-      },
+      label: {},
       itemStyle: {
         normal: {
           color: new echarts.graphic.LinearGradient(

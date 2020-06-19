@@ -12,6 +12,8 @@
 
 <script>
 /* eslint-disable */
+
+import { toThousandFilter } from '@/api/currency.js'
 import '../world.js'
 import cBottom from './cBottom.vue'
 import mapData from './geoCoordMap.js'
@@ -94,8 +96,12 @@ export default {
             return `
               ${param.marker}发货港口: ${param.seriesName}<br />
               ${param.marker}收货港口: ${city}<br />
-              ${param.marker}货柜数量: ${getItem.containerQty}柜<br />
-              ${param.marker}商品数量: ${getItem.shippedCartonQty}箱 / ${getItem.planCartonQty}箱<br />
+              ${param.marker}货柜数量: ${toThousandFilter(
+              getItem.containerQty
+            )}柜<br />
+              ${param.marker}商品数量: ${toThousandFilter(
+              getItem.shippedCartonQty
+            )}箱 / ${toThousandFilter(getItem.planCartonQty)}箱<br />
               ${param.marker}完成度: ${getItem.shippedProportion}%<br />
               `
           }

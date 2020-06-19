@@ -1,6 +1,6 @@
 <template>
   <div class="linear-map">
-    <topTips :title="'库存量（周）'"></topTips>
+    <topTips :title="'无锡仓库使用统计'"></topTips>
     <div id="mini_data"></div>
   </div>
 </template>
@@ -41,24 +41,45 @@ export default {
         show: true,
         trigger: 'item',
         formatter(param) {
+          console.log(data[param.dataIndex])
           let str = ''
           if (param.seriesIndex === 0) {
             str = `
-            ${param.marker}${data[param.dataIndex].inTotalCartonQty} 箱<br />
-            ${param.marker}${data[param.dataIndex].inTotalQty} 件<br />
-            ${param.marker}¥ ${data[param.dataIndex].inTotalCNYAmount}<br />
-            ${param.marker}$ ${data[param.dataIndex].inTotalUSDAmount}<br />`
+            ${param.marker}开始: ${data[param.dataIndex].startDate}<br />
+            ${param.marker}结束: ${data[param.dataIndex].endDate}<br />
+            ${param.marker}箱数: ${
+              data[param.dataIndex].inTotalCartonQty
+            } 箱<br />
+            ${param.marker}件数: ${data[param.dataIndex].inTotalQty} 件<br />
+            ${param.marker}金额: ¥ ${
+              data[param.dataIndex].inTotalCNYAmount
+            }<br />
+            ${param.marker}金额: $ ${
+              data[param.dataIndex].inTotalUSDAmount
+            }<br />`
           } else if (param.seriesIndex === 1) {
             str = `
-            ${param.marker}${data[param.dataIndex].outTotalCartonQty} 箱<br />
-            ${param.marker}${data[param.dataIndex].outTotalQty} 件<br />
-            ${param.marker}¥ ${data[param.dataIndex].outTotalCNYAmount}<br />
-            ${param.marker}$ ${data[param.dataIndex].outTotalUSDAmount}<br />`
+            ${param.marker}开始: ${data[param.dataIndex].startDate}<br />
+            ${param.marker}结束: ${data[param.dataIndex].endDate}<br />
+            ${param.marker}箱数: ${
+              data[param.dataIndex].outTotalCartonQty
+            } 箱<br />
+            ${param.marker}件数: ${data[param.dataIndex].outTotalQty} 件<br />
+            ${param.marker}金额: ¥ ${
+              data[param.dataIndex].outTotalCNYAmount
+            }<br />
+            ${param.marker}金额: $ ${
+              data[param.dataIndex].outTotalUSDAmount
+            }<br />`
           } else if (param.seriesIndex === 2) {
             str = `
-            ${param.marker}${data[param.dataIndex].stockCartonQty} 箱<br />
-            ${param.marker}${data[param.dataIndex].stockQty} 件<br />
-            ${param.marker}¥ ${data[param.dataIndex].stockCNYAmount}<br />
+            ${param.marker}开始: ${data[param.dataIndex].startDate}<br />
+            ${param.marker}结束: ${data[param.dataIndex].endDate}<br />
+            ${param.marker}箱数: ${
+              data[param.dataIndex].stockCartonQty
+            } 箱<br />
+            ${param.marker}件数: ${data[param.dataIndex].stockQty} 件<br />
+            ${param.marker}金额: ¥ ${data[param.dataIndex].stockCNYAmount}<br />
             ${param.marker}$ ${data[param.dataIndex].stockUSAAmount}<br />`
           }
 
