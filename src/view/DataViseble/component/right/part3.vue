@@ -17,9 +17,10 @@
 </template>
 
 <script>
+import _ from 'lodash'
+import { toThousandFilter } from '@/api/currency.js'
 import topTips from '../topTips.vue'
 import part03 from './part3.js'
-import _ from 'lodash'
 
 export default {
   components: {
@@ -31,7 +32,7 @@ export default {
         'http://192.168.0.188:9527/erp-service/countcerReports/supplierProportion?accessToken=MUQ5RjMwRjcwMUE0NkUwRkUxNkUyMkNDNkZFNDNBOTEsMg==&startDate=2020-06-15&endDate=2020-06-21',
       num: 0,
       totalData: [],
-      sortStr: ['inTotalAmount', 'outTotalAmount', 'stockAmount'],
+      sortStr: ['inTotalAmount', 'outTotalAmount', 'stockTotalAmount'],
       dataList: [],
       legendName: [],
       dataInfo: [[], [], []]
@@ -39,13 +40,11 @@ export default {
   },
   mounted() {
     this.initData()
-
-    // const myChart1 = this.$echarts.init(document.getElementById('part_03'))
-    // myChart1.setOption(part03)
   },
   methods: {
     async initData() {
       const { data } = await this.$axios.get(this.searchUrl)
+      this.totalData = data
       this.checkData(data)
 
       this.setOptions()
@@ -62,40 +61,59 @@ export default {
       this.dataInfo = [[], [], []]
       this.legendName = []
       // 1.0 根据入库人民币金额排序， 取出前10名
-      this.totalData = _.reverse(_.sortBy(d, [this.sortStr[this.num]]))
-      let arr = _.cloneDeep(this.totalData)
+      let arr = _.cloneDeep(d)
+      arr = _.sortBy(d, item => -item[this.sortStr[this.num]])
       arr = arr.splice(0, 10)
       // 2.0 遍历数据，存储需要的信息
       arr.forEach(item => {
-        this.legendName.push(item.name)
         this.dataInfo[0].push({
           name: item.name,
-          value: item.inTotalQty
+          value: item[this.sortStr[0]],
+          xNum: toThousandFilter(item.inTotalCartonQty),
+          boxNum: toThousandFilter(item.inTotalQty),
+          CNYNum: toThousandFilter(item.inTotalCNYAmount),
+          USDNum: toThousandFilter(item.inTotalUSDAmount)
         })
         this.dataInfo[1].push({
           name: item.name,
-          value: item.outTotalQty
+          value: item[this.sortStr[1]],
+          xNum: toThousandFilter(item.outTotalCartonQty),
+          boxNum: toThousandFilter(item.outTotalQty),
+          CNYNum: toThousandFilter(item.outTotalCNYAmount),
+          USDNum: toThousandFilter(item.outTotalUSDAmount)
         })
         this.dataInfo[2].push({
           name: item.name,
-          value: item.stockQty
+          value: item[this.sortStr[2]],
+          xNum: toThousandFilter(item.stockCartonQty),
+          boxNum: toThousandFilter(item.stockQty),
+          CNYNum: toThousandFilter(item.stockCNYAmount),
+          USDNum: toThousandFilter(item.stockUSAAmount)
         })
       })
     },
     setOptions() {
-      part03.legend.data = this.legendName
+      this.dataInfo[this.num] = _.sortBy(
+        this.dataInfo[this.num],
+        item => -item.value
+      )
+      const legendName = []
+      this.dataInfo[this.num].forEach(item => {
+        legendName.push(item.name)
+      })
+      part03.legend.data = legendName
       part03.series[0].data = this.dataInfo[this.num]
       const myChart1 = this.$echarts.init(document.getElementById('part_03'))
       myChart1.setOption(part03)
     },
     checkItem(i) {
+      // 改变索引
+      this.num = i
       this.checkData(this.totalData)
       this.$refs.clickRef.children.forEach(item => {
         item.removeAttribute('class')
       })
       this.$refs.clickRef.children[i].classList.add('cur')
-      // 改变索引
-      this.num = i
       this.setOptions()
     },
     clearInter() {

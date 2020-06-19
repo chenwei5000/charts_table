@@ -1,15 +1,10 @@
 import echarts from 'echarts'
 
 const option = {
-  tooltip: {
-    trigger: 'axis',
-    axisPointer: {
-      type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-    }
-  },
+  tooltip: {},
   grid: {
     top: '3%',
-    left: '15%',
+    left: '17%',
     right: '5%',
     bottom: '5%'
     // containLabel: true
@@ -61,9 +56,9 @@ const option = {
       label: {
         normal: {
           show: true,
-          position: 'insideRight',
+          position: [10, 4],
           textStyle: {
-            color: 'white' // color of value
+            color: '#fff' // color of value
           }
         }
       },

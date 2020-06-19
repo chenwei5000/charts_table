@@ -1,121 +1,5 @@
 import echarts from 'echarts'
 
-// Generate data
-var category = [
-  '市区',
-  '万州',
-  '江北',
-  '南岸',
-  '北碚',
-  '綦南',
-  '长寿',
-  '永川',
-  '璧山',
-  '江津',
-  '城口',
-  '大足',
-  '垫江',
-  '丰都',
-  '奉节',
-  '合川',
-  '江津区',
-  '开州',
-  '南川',
-  '彭水',
-  '黔江',
-  '石柱',
-  '铜梁',
-  '潼南',
-  '巫山',
-  '巫溪',
-  '武隆',
-  '秀山',
-  '酉阳',
-  '云阳',
-  '忠县',
-  '川东',
-  '检修'
-]
-// var dottedBase = []
-var lineData = [
-  18092,
-  20728,
-  24045,
-  28348,
-  32808,
-  36097,
-  39867,
-  44715,
-  48444,
-  50415,
-  56061,
-  62677,
-  59521,
-  67560,
-  18092,
-  20728,
-  24045,
-  28348,
-  32808,
-  36097,
-  39867,
-  44715,
-  48444,
-  50415,
-  36097,
-  39867,
-  44715,
-  48444,
-  50415,
-  50061,
-  32677,
-  49521,
-  32808
-]
-var barData = [
-  4600,
-  5000,
-  5500,
-  6500,
-  7500,
-  8500,
-  9900,
-  12500,
-  14000,
-  21500,
-  23200,
-  24450,
-  25250,
-  33300,
-  4600,
-  5000,
-  5500,
-  6500,
-  7500,
-  8500,
-  9900,
-  22500,
-  14000,
-  21500,
-  8500,
-  9900,
-  12500,
-  14000,
-  21500,
-  23200,
-  24450,
-  25250,
-  7500
-]
-var rateData = []
-// 32808
-for (var i = 0; i < 33; i++) {
-  // var date = i+2001;
-  // category.push(date)
-  var rate = barData[i] / lineData[i]
-  rateData[i] = rate.toFixed(2)
-}
-
 // option
 const option = {
   title: {
@@ -129,17 +13,7 @@ const option = {
       fontWeight: 'normal'
     }
   },
-  tooltip: {
-    trigger: 'axis',
-    backgroundColor: 'rgba(255,255,255,0.1)',
-    axisPointer: {
-      type: 'shadow',
-      label: {
-        show: true,
-        backgroundColor: '#7B7DDC'
-      }
-    }
-  },
+  tooltip: {},
   legend: {
     data: ['已发货', '计划发货', '发货率'],
     textStyle: {
@@ -154,7 +28,7 @@ const option = {
     y: '10%'
   },
   xAxis: {
-    data: category,
+    data: [],
     axisLine: {
       lineStyle: {
         color: '#B4B4B4'
@@ -167,6 +41,7 @@ const option = {
   zoom: 0.9,
   yAxis: [
     {
+      max: 1500,
       splitLine: { show: false },
       axisLine: {
         lineStyle: {
@@ -179,6 +54,7 @@ const option = {
       }
     },
     {
+      max: 1.5,
       splitLine: { show: false },
       axisLine: {
         lineStyle: {
@@ -205,7 +81,7 @@ const option = {
           color: '#F02FC2'
         }
       },
-      data: rateData
+      data: []
     },
 
     {
@@ -221,7 +97,7 @@ const option = {
           ])
         }
       },
-      data: barData
+      data: []
     },
 
     {
@@ -241,7 +117,7 @@ const option = {
       },
       z: -12,
 
-      data: lineData
+      data: []
     }
   ]
 }

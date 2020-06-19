@@ -1,14 +1,22 @@
 const option = {
   tooltip: {
     trigger: 'item',
-    formatter: '{a} <br/>{b}: {c} ({d}%)'
+    formatter(param) {
+      return `
+        ${param.marker}${param.name} <br/>
+        ${param.marker}${param.data.xNum} 箱<br/>
+        ${param.marker}${param.data.boxNum} 件 <br/>
+        ${param.marker}¥ ${param.data.CNYNum}<br/>
+        ${param.marker}$ ${param.data.USDNum}<br/>
+      `
+    }
   },
   legend: {
     orient: 'vertical',
     right: '10%',
     y: 'middle',
     itemWidth: 10,
-    itemGap: 2,
+    itemGap: 3,
     itemHeight: 10,
     align: 'right',
 
@@ -21,7 +29,7 @@ const option = {
   series: [
     {
       left: '-30%',
-      name: '访问来源',
+      name: '',
       type: 'pie',
       radius: ['30%', '75%'],
       color: [
@@ -38,9 +46,15 @@ const option = {
       ],
       label: {
         normal: {
-          show: false,
-          formatter: '{b}\n{d}%',
-          fontSize: 12
+          show: true,
+          formatter(param) {
+            if (param.percent > 5) {
+              return param.percent + '%'
+            }
+            return ''
+          },
+          fontSize: 12,
+          position: 'inside'
         }
       },
       labelLine: {

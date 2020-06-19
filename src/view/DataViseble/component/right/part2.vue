@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import _ from 'lodash'
+import { toThousandFilter } from '@/api/currency.js'
 import topTips from '../topTips.vue'
 import part02 from './part2.js'
 
@@ -29,58 +31,24 @@ export default {
   data() {
     return {
       timer: null,
-      yArr: [
-        [
-          '四川',
-          '福健',
-          '湖北',
-          '河南',
-          '浙江',
-          '江苏',
-          '山东',
-          '上海',
-          '广东',
-          '北京'
-        ],
-        [
-          '义乌',
-          '青岛',
-          '武汉',
-          '北京',
-          '深圳',
-          '秦皇岛',
-          '大连',
-          '上海',
-          '宁波',
-          '海口'
-        ],
-        [
-          '海口',
-          '青岛',
-          '宁波',
-          '义乌',
-          '深圳',
-          '北京',
-          '大连',
-          '顺义',
-          '秦皇岛',
-          '哈尔滨'
-        ]
-      ],
-      topData: [
-        [7700, 8800, 9900, 11100, 14200, 16000, 18400, 20500, 22600, 24700],
-        [12900, 27788, 12277, 17722, 29772, 32772, 22992, 22882, 48844, 22737],
-        [33322, 22231, 18877, 22200, 18773, 19988, 22288, 24400, 37391, 28822]
-      ],
-      num: 0
+      searchUrl:
+        'http://192.168.0.188:9527/erp-service/countcerReports/categoryProportion?accessToken=MUQ5RjMwRjcwMUE0NkUwRkUxNkUyMkNDNkZFNDNBOTEsMg==&startDate=2020-06-15&endDate=2020-06-21',
+      num: 0,
+      totalData: [],
+      sortStr: ['inTotalAmount', 'outTotalAmount', 'stockTotalAmount'],
+      dataInfo: [[], [], []]
     }
   },
   mounted() {
-    this.setOptions()
     this.initData()
   },
   methods: {
-    initData() {
+    async initData() {
+      const { data } = await this.$axios.get(this.searchUrl)
+      this.totalData = data
+      this.checkData(data)
+
+      this.setOptions()
       // 自动切换 tab 栏
       this.timer = setInterval(() => {
         this.checkItem(this.num)
@@ -90,20 +58,81 @@ export default {
         this.num++
       }, 3000)
     },
+    checkData(d) {
+      this.dataInfo = [[], [], []]
+      this.legendName = []
+      // 1.0 根据入库人民币金额排序， 取出前10名
+      let arr = _.cloneDeep(d)
+      arr = _.sortBy(d, item => -item[this.sortStr[this.num]])
+      arr = arr.splice(0, 10)
+      // 2.0 遍历数据，存储需要的信息
+      arr.forEach(item => {
+        this.dataInfo[0].push({
+          name: item.name,
+          value: item[this.sortStr[0]],
+          xNum: toThousandFilter(item.inTotalCartonQty),
+          boxNum: toThousandFilter(item.inTotalQty),
+          CNYNum: toThousandFilter(item.inTotalCNYAmount),
+          USDNum: toThousandFilter(item.inTotalUSDAmount)
+        })
+        this.dataInfo[1].push({
+          name: item.name,
+          value: item[this.sortStr[1]],
+          xNum: toThousandFilter(item.outTotalCartonQty),
+          boxNum: toThousandFilter(item.outTotalQty),
+          CNYNum: toThousandFilter(item.outTotalCNYAmount),
+          USDNum: toThousandFilter(item.outTotalUSDAmount)
+        })
+        this.dataInfo[2].push({
+          name: item.name,
+          value: item[this.sortStr[2]],
+          xNum: toThousandFilter(item.stockCartonQty),
+          boxNum: toThousandFilter(item.stockQty),
+          CNYNum: toThousandFilter(item.stockCNYAmount),
+          USDNum: toThousandFilter(item.stockUSAAmount)
+        })
+      })
+    },
     setOptions() {
-      this.topData[this.num] = this.topData[this.num].sort((a, b) => a - b)
-      part02.yAxis[0].data = this.yArr[this.num]
-      part02.series[0].data = this.topData[this.num]
+      const arr = _.sortBy(this.dataInfo[this.num], item => item.value)
+      const legendName = []
+      part02.series[0].data = []
+      arr.forEach(item => {
+        legendName.push(item.name)
+        part02.series[0].data.push(item.value)
+      })
+      part02.yAxis[0].data = legendName
+      part02.tooltip = {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+        },
+        formatter(param) {
+          // console.log(_that.dataInfo[_that.num])
+          param[0].marker =
+            '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color: rgba(8, 147, 249, .8);"></span>'
+          const dataItem = arr[param[0].dataIndex]
+          return `
+            ${param[0].marker}${dataItem.name} <br/>
+            ${param[0].marker}${dataItem.xNum} 箱<br/>
+            ${param[0].marker}${dataItem.boxNum} 件 <br/>
+            ${param[0].marker}¥ ${dataItem.CNYNum}<br/>
+            ${param[0].marker}$ ${dataItem.USDNum}<br/>
+          `
+        }
+      }
+      // 渲染 Top10 数据图
       const myChart1 = this.$echarts.init(document.getElementById('part_02'))
       myChart1.setOption(part02)
     },
     checkItem(i) {
+      // 改变索引
+      this.num = i
+      this.checkData(this.totalData)
       this.$refs.clickRef.children.forEach(item => {
         item.removeAttribute('class')
       })
       this.$refs.clickRef.children[i].classList.add('cur')
-      // 改变索引
-      this.num = i
       this.setOptions()
     },
     clearInter() {
@@ -111,7 +140,13 @@ export default {
     },
     openInter() {
       clearInterval(this.timer)
-      this.initData()
+      this.timer = setInterval(() => {
+        this.checkItem(this.num)
+        // 重新渲染数据
+        this.setOptions()
+        if (this.num === 2) return (this.num = 0)
+        this.num++
+      }, 3000)
     }
   }
 }

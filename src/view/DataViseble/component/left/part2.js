@@ -9,10 +9,7 @@ const option = {
     bottom: '3%',
     containLabel: true
   },
-  tooltip: {
-    show: true,
-    trigger: 'item'
-  },
+  tooltip: {},
   legend: {
     show: true,
     top: '-1%',
@@ -23,7 +20,7 @@ const option = {
     textStyle: {
       color: '#1bb4f6'
     },
-    data: ['入库', '出口', '库存']
+    data: ['入库', '出库', '库存']
   },
   xAxis: [
     {
@@ -47,23 +44,7 @@ const option = {
           color: 'rgba(255, 255, 255, .1)'
         }
       },
-      data: [
-        '1',
-        '2',
-        '3',
-        '4',
-        '5',
-        '6',
-        '7',
-        '8',
-        '9',
-        '10',
-        '11',
-        '12',
-        '13',
-        '14',
-        '15'
-      ]
+      data: []
     }
   ],
   yAxis: [
@@ -71,7 +52,7 @@ const option = {
       type: 'value',
       name: '',
       min: 0,
-      max: 1000,
+      max: 15000,
       axisLabel: {
         formatter: '{value}',
         textStyle: {
@@ -130,26 +111,10 @@ const option = {
           }
         }
       },
-      data: [
-        120,
-        132,
-        101,
-        134,
-        90,
-        230,
-        210,
-        182,
-        191,
-        234,
-        290,
-        330,
-        242,
-        452,
-        253
-      ]
+      data: []
     },
     {
-      name: '出口',
+      name: '出库',
       type: 'line',
       symbol: 'circle',
       symbolSize: 6,
@@ -176,23 +141,7 @@ const option = {
           }
         }
       },
-      data: [
-        220,
-        182,
-        191,
-        234,
-        290,
-        330,
-        310,
-        201,
-        154,
-        190,
-        330,
-        410,
-        425,
-        631,
-        820
-      ]
+      data: []
     },
     {
       name: '库存',
@@ -221,23 +170,7 @@ const option = {
           }
         }
       },
-      data: [
-        150,
-        232,
-        201,
-        154,
-        190,
-        330,
-        410,
-        150,
-        232,
-        201,
-        154,
-        190,
-        280,
-        520,
-        121
-      ]
+      data: []
     }
   ]
 }

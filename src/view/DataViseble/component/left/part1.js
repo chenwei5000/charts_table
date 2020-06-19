@@ -1,17 +1,24 @@
 const option = {
-  color: [],
   tooltip: {
     trigger: 'item',
-    formatter: '{a} <br/>{b} : {c} ({d}%)'
+    formatter(param) {
+      return `
+        ${param.marker}${param.name} <br/>
+        ${param.marker}${param.data.xNum} 箱<br/>
+        ${param.marker}${param.data.boxNum} 件 <br/>
+        ${param.marker}¥ ${param.data.CNYNum}<br/>
+        ${param.marker}$ ${param.data.USDNum}<br/>
+      `
+    }
   },
   legend: {
     orient: 'vertical',
-    right: '8%',
-    top: '25%',
+    right: '10%',
+    y: 'middle',
     itemWidth: 10,
-    itemGap: 10,
+    itemGap: 3,
     itemHeight: 10,
-    align: 'left',
+    align: 'right',
 
     data: [],
     textStyle: {
@@ -21,21 +28,41 @@ const option = {
   },
   series: [
     {
-      name: '评论分析维度',
+      top: '2%',
+      left: '-45%',
+      name: '',
       type: 'pie',
-      radius: [20, 100],
-      top: '10%',
-      left: '-50%',
-      roseType: 'area',
-      labelLine: {
-        normal: {
-          show: false
-        }
-      },
+      radius: ['25%', '65%'],
+      color: [
+        '#2CEDED',
+        '#7049F0',
+        '#B347FF',
+        '#E70E65',
+        '#FF714A',
+        '#F6B768',
+        '#B0DF5D',
+        '#FC7DBC',
+        '#0A9FFD',
+        'yellowgreen'
+      ],
       label: {
         normal: {
+          show: true,
+          formatter(param) {
+            if (param.percent > 5) {
+              return param.percent + '%'
+            }
+            return ''
+          },
+          fontSize: 12,
+          position: 'inside'
+        }
+      },
+      labelLine: {
+        normal: {
           show: false,
-          position: 'center'
+          length: 10,
+          length2: 74
         }
       },
       data: []

@@ -6,9 +6,7 @@
         <li class="cur" @click="checkItem(0)">
           <a href="javascript:;">入库</a>/
         </li>
-        <li @click="checkItem(1)">
-          <a href="javascript:;">出口</a>/
-        </li>
+        <li @click="checkItem(1)"><a href="javascript:;">出口</a>/</li>
         <li @click="checkItem(2)">
           <a href="javascript:;">库存</a>
         </li>
@@ -19,6 +17,8 @@
 </template>
 
 <script>
+import _ from 'lodash'
+import { toThousandFilter } from '@/api/currency.js'
 import topTips from '../topTips.vue'
 import option from './part1.js'
 
@@ -42,7 +42,8 @@ export default {
         '#8378ea'
       ],
       legendArr: [],
-      dataList: [[], [], []]
+      dataList: [[], [], []],
+      sortStr: ['inTotalAmount', 'outTotalAmount', 'stockTotalAmount']
     }
   },
   mounted() {
@@ -51,25 +52,8 @@ export default {
   methods: {
     async initData() {
       const { data } = await this.$axios.get(this.searchUrl)
+      this.totalData = data
 
-      // 获取legend数据标题
-      data.forEach(item => {
-        this.legendArr.push(item.name)
-        this.dataList[0].push({
-          name: item.name,
-          value: item.inTotalQty
-        })
-        this.dataList[1].push({
-          name: item.name,
-          value: item.outTotalQty
-        })
-        this.dataList[2].push({
-          name: item.name,
-          value: item.stockQty
-        })
-      })
-
-      option.color = this.colorArr.splice(0, this.legendArr.length)
       this.setOptions()
       // 自动切换 tab 栏
       this.timer = setInterval(() => {
@@ -81,19 +65,56 @@ export default {
       }, 3000)
     },
     setOptions() {
+      this.checkData(this.totalData)
       // 设置 legend 导航信息，设置实质的数据
       option.legend.data = this.legendArr
       option.series[0].data = this.dataList[this.num]
       const myChart1 = this.$echarts.init(document.getElementById('part_sex'))
       myChart1.setOption(option)
     },
+    checkData(d) {
+      this.legendArr = []
+      this.dataList = [[], [], []]
+      let arr = _.cloneDeep(d)
+      arr = _.sortBy(arr, item => -item[this.sortStr[this.num]])
+
+      // 获取legend数据标题
+      arr.forEach(item => {
+        this.legendArr.push(item.name)
+        this.dataList[0].push({
+          name: item.name,
+          value: item[this.sortStr[0]],
+          xNum: toThousandFilter(item.inTotalCartonQty),
+          boxNum: toThousandFilter(item.inTotalQty),
+          CNYNum: toThousandFilter(item.inTotalCNYAmount),
+          USDNum: toThousandFilter(item.inTotalUSDAmount)
+        })
+        this.dataList[1].push({
+          name: item.name,
+          value: item[this.sortStr[1]],
+          xNum: toThousandFilter(item.outTotalCartonQty),
+          boxNum: toThousandFilter(item.outTotalQty),
+          CNYNum: toThousandFilter(item.outTotalCNYAmount),
+          USDNum: toThousandFilter(item.outTotalUSDAmount)
+        })
+        this.dataList[2].push({
+          name: item.name,
+          value: item[this.sortStr[2]],
+          xNum: toThousandFilter(item.stockCartonQty),
+          boxNum: toThousandFilter(item.stockQty),
+          CNYNum: toThousandFilter(item.stockCNYAmount),
+          USDNum: toThousandFilter(item.stockUSAAmount)
+        })
+      })
+    },
     checkItem(i) {
+      // 改变索引
+      this.num = i
+      this.checkData(this.totalData)
       this.$refs.clickRef.children.forEach(item => {
         item.removeAttribute('class')
       })
       this.$refs.clickRef.children[i].classList.add('cur')
-      // 改变索引
-      this.num = i
       this.setOptions()
     },
     clearInter() {

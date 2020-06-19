@@ -8,17 +8,66 @@
 <script>
 import topTips from '../topTips.vue'
 import part2 from './part2.js'
+// import option from './part2.js'
 
 export default {
   components: {
     topTips
   },
   data() {
-    return {}
+    return {
+      searchUrl:
+        'http://192.168.0.188:9527/erp-service/countcerReports/stocks?accessToken=MUQ5RjMwRjcwMUE0NkUwRkUxNkUyMkNDNkZFNDNBOTEsMg==&endDate=2020-06-21'
+    }
   },
   mounted() {
-    const myChart1 = this.$echarts.init(document.getElementById('mini_data'))
-    myChart1.setOption(part2)
+    this.initData()
+  },
+  methods: {
+    async initData() {
+      const { data } = await this.$axios.get(this.searchUrl)
+      // console.log(data)
+      const xAxisArr = []
+      data.forEach(item => {
+        xAxisArr.push(item.week)
+        part2.series[0].data.push(item.inTotalCartonQty)
+        part2.series[1].data.push(item.outTotalCartonQty)
+        part2.series[2].data.push(item.stockCartonQty)
+      })
+      part2.xAxis[0].data = xAxisArr
+
+      // 鼠标移上折线图显示的信息
+      part2.tooltip = {
+        show: true,
+        trigger: 'item',
+        formatter(param) {
+          let str = ''
+          if (param.seriesIndex === 0) {
+            str = `
+            ${param.marker}${data[param.dataIndex].inTotalCartonQty} 箱<br />
+            ${param.marker}${data[param.dataIndex].inTotalQty} 件<br />
+            ${param.marker}¥ ${data[param.dataIndex].inTotalCNYAmount}<br />
+            ${param.marker}$ ${data[param.dataIndex].inTotalUSDAmount}<br />`
+          } else if (param.seriesIndex === 1) {
+            str = `
+            ${param.marker}${data[param.dataIndex].outTotalCartonQty} 箱<br />
+            ${param.marker}${data[param.dataIndex].outTotalQty} 件<br />
+            ${param.marker}¥ ${data[param.dataIndex].outTotalCNYAmount}<br />
+            ${param.marker}$ ${data[param.dataIndex].outTotalUSDAmount}<br />`
+          } else if (param.seriesIndex === 2) {
+            str = `
+            ${param.marker}${data[param.dataIndex].stockCartonQty} 箱<br />
+            ${param.marker}${data[param.dataIndex].stockQty} 件<br />
+            ${param.marker}¥ ${data[param.dataIndex].stockCNYAmount}<br />
+            ${param.marker}$ ${data[param.dataIndex].stockUSAAmount}<br />`
+          }
+
+          return str
+        }
+      }
+      const myChart1 = this.$echarts.init(document.getElementById('mini_data'))
+      myChart1.setOption(part2)
+    }
   }
 }
 </script>
