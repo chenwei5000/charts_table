@@ -47,9 +47,9 @@ export default {
     async initData() {
       let num = 0
       const dataInfo = [
-        ['17%', '50%'],
+        ['18%', '50%'],
         ['50%', '50%'],
-        ['83%', '50%']
+        ['82%', '50%']
       ]
       const { data } = await this.$axios.get(this.searchUrl)
       // console.log(data)
