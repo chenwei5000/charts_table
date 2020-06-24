@@ -7,7 +7,6 @@ const option = {
     left: '17%',
     right: '5%',
     bottom: '5%'
-    // containLabel: true
   },
   yAxis: [
     {
